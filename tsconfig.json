@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["cypress", "@badeball/cypress-cucumber-preprocessor"]
+  },
+  "include": ["**/*.ts"]
+}
