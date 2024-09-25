@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
 Given('I search for {string}', (product: string) => {
     cy.visit('https://www.amazon.com/');

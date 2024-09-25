@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
 const amazonUrl = Cypress.env('AMAZON_URL');
 const searchQuery = 'Sony WF-1000XM4 White';
