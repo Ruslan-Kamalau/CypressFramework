@@ -1,19 +1,20 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { MainPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
+import { HelperMethods } from 'cypress/support/step_definitons/pages/helperMethods';
 
-const amazonUrl = Cypress.env('AMAZON_URL');
-const searchQuery = 'Sony WF-1000XM4 White';
+const loginPage = new LoginPage();
+const mainPage = new MainPage();
+const helperMethods = new HelperMethods();
 
 Given('I am on the Amazon homepage', () => {
-    cy.visit(amazonUrl);
+    loginPage.openAmazonHomePage();
 });
 
-When('I search for {string}', (product: string) => {
-    cy.get('#twotabsearchtextbox').type(product);
-    cy.get('#nav-search-submit-button').click();
+When('I search for {string}', (productName: string) => {
+  mainPage.searchProduct(productName);
 });
 
-Then('I should see search results for the product', () => {
-    cy.get('.s-main-slot')
-        .find('.s-title')
-        .should('contain.text', searchQuery);
+Then('I should see search results for {string}', (productName: string) => {
+  helperMethods.shouldContainText('.s-main-slot .s-search-results', productName);
 });

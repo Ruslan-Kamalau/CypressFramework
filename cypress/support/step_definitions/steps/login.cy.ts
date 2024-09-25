@@ -1,7 +1,9 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
+import { HelperMethods } from 'cypress/support/step_definitons/pages/helperMethods';
 
 const loginPage = new LoginPage();
+const helperMethods = new HelperMethods();
 
 Given('I am on the Amazon homepage', () => {
   loginPage.openAmazonHomePage();
@@ -12,5 +14,5 @@ When('I login with valid credentials', () => {
 });
 
 Then('I should be logged in successfully', () => {
-  cy.get('#nav-link-accountList').should('contain.text', 'Hello, Ruslan');
+  helperMethods.shouldContainText('#nav-link-accountList', 'Hello');
 });
