@@ -16,12 +16,16 @@ export class MainPage {
       cy.get(this.accountListButton).click();
     }
   
-    clickCart() {
+    goToCart() {
       cy.get(this.cartButton).click();
     }
 
     addToCart() {
         cy.get(this.firstProductInSearch).first().click();
         cy.get(this.addToCartButton).click();
+    }
+
+    clickFirstProduct() {
+      cy.get(this.firstProductInSearch).first().click();
     }
   }

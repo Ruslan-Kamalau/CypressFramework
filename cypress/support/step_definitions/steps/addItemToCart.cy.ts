@@ -20,6 +20,6 @@ Given('I am on the Amazon homepage', () => {
   });
   
   Then('the {string} should be in my cart', (productName: string) => {
-    mainPage.clickCart();
+    mainPage.goToCart();
     helperMethods.shouldContainText('.sc-list-item-content', productName);
 });

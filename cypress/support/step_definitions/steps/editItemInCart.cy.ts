@@ -1,28 +1,30 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { MainPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { CartPage } from 'cypress/support/step_definitons/pages/cartPage';
+
+const mainPage = new MainPage();
+const cartPage = new CartPage();
 
 Given('I search for {string}', (product: string) => {
-    cy.visit('https://www.amazon.com/');
-    cy.get('#twotabsearchtextbox').type(product);
-    cy.get('#nav-search-submit-button').click();
+  mainPage.searchProduct(product); 
 });
 
 When('I click on the first product in the search results', () => {
-    cy.get('.s-main-slot .s-result-item').first().find('h2 a').click();
+  mainPage.clickFirstProduct();
 });
 
 When('I add the product to the cart', () => {
-    cy.get('#add-to-cart-button').click();
+  cartPage.addToCart();
 });
 
 When('I navigate to the shopping cart', () => {
-    cy.get('#nav-cart').click();
+  cartPage.navigateToCart();
 });
 
 When('I change the quantity of the product to {string}', (quantity: string) => {
-    cy.get('.a-dropdown-prompt').click();
-    cy.get(`.a-dropdown-link[value="${quantity}"]`).click();
+  cartPage.changeQuantity(quantity);
 });
 
 Then('I should see the quantity updated in the cart', () => {
-    cy.get('.sc-action-quantity input').should('have.value', '2');
+  cartPage.verifyQuantity('2');
 });

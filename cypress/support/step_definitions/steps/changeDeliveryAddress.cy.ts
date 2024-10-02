@@ -1,35 +1,35 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
+import { MainPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { CheckoutPage } from 'cypress/support/step_definitons/pages/checkoutPage';
+
+const loginPage = new LoginPage();
+const mainPage = new MainPage();
+const checkoutPage = new CheckoutPage();
 
 Given('I am logged into Amazon with valid credentials', () => {
-    cy.visit('https://www.amazon.com/');
-    cy.get('#nav-link-accountList').click();
-    cy.get('#ap_email').type(Cypress.env('AMAZON_EMAIL'));
-    cy.get('#continue').click();
-    cy.get('#ap_password').type(Cypress.env('AMAZON_PASSWORD'));
-    cy.get('#signInSubmit').click();
+  loginPage.openAmazonHomePage();
+  loginPage.login();
 });
 
-When('I add an item to the cart', () => {
-    cy.get('#twotabsearchtextbox').type('Sony WF-1000XM4 White');
-    cy.get('#nav-search-submit-button').click();
-    cy.get('.s-main-slot .s-result-item').first().find('h2 a').click();
-    cy.get('#add-to-cart-button').click();
+When('I add an {string} to the cart', (product : string) => {
+  mainPage.searchProduct(product);
+  mainPage.addToCart();
 });
 
 When('I proceed to checkout', () => {
-    cy.get('#nav-cart').click();
-    cy.get('.a-button-input').click();
+  mainPage.goToCart();
+  checkoutPage.proceedToCheckout();
 });
 
 Then('I should see an option to change the delivery address', () => {
-    cy.get('#addressChangeLinkId').should('exist').and('be.visible');
+  checkoutPage.shouldSeeChangeAddressOption();
 });
 
 When('I change the delivery address to {string}', (newAddress: string) => {
-    cy.get('#addressChangeLinkId').click();
-    cy.get('.address-book-entry').contains(newAddress).click();
+  checkoutPage.changeDeliveryAddress(newAddress);
 });
 
-Then('the address should be updated for the order', () => {
-    cy.get('#addressChangeLinkId').should('contain.text', 'New Address');
+Then('The address: {string} should be updated for the order', (newAdress: string) => {
+  checkoutPage.addressShouldBeUpdated(newAdress);
 });
