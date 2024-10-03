@@ -1,21 +1,30 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { SearchPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
+import { CartPage } from 'cypress/support/step_definitons/pages/cartPage';
+import { HelperMethods } from 'cypress/support/step_definitons/pages/helperMethods';
+
+const loginPage = new LoginPage();
+const searchPage = new SearchPage();
+const helperMethods = new HelperMethods();
+const cartPage = new CartPage();
+
 
 Given('I am logged into Amazon with valid credentials', () => {
-    cy.visit('https://www.amazon.com/');
-    cy.get('#nav-link-accountList').click();
-    cy.get('#ap_email').type(Cypress.env('AMAZON_EMAIL'));
-    cy.get('#continue').click();
-    cy.get('#ap_password').type(Cypress.env('AMAZON_PASSWORD'));
-    cy.get('#signInSubmit').click();
+    loginPage.openAmazonHomePage();
+    loginPage.login();
 });
 
+When('I search for {string} and adding it to the cart', (productName: string) => {
+    searchPage.searchProduct(productName);
+    cartPage.addToCart();
+  });
+  
 When('I navigate to the shopping cart', () => {
-    cy.get('#nav-cart').click();
+    cartPage.navigateToCart();
 });
 
 Then('I should see the items currently in my cart', () => {
-    cy.get('.sc-list-item').should('exist').and('be.visible');
-    cy.get('.sc-product-title').each((item) => {
-        cy.wrap(item).should('not.be.empty');
-    });
+    cartPage.verifyItemsInCart();
+    cartPage.verifyItemsAreNotEmpty();
 });

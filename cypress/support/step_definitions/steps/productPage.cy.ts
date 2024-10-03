@@ -1,43 +1,34 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { SearchPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { ProductPage } from 'cypress/support/step_definitons/pages/productPage';
 
-const amazonUrl = Cypress.env('AMAZON_URL');
-const searchQuery = 'Sony WF-1000XM4 White';
+const searchPage = new SearchPage();
+const productPage = new ProductPage();
 
 Given('I search for {string}', (product: string) => {
-    cy.visit(amazonUrl);
-
-    cy.get('#twotabsearchtextbox').type(product);
-    cy.get('#nav-search-submit-button').click();
+   searchPage.searchProduct(product);
 });
 
 When('I click on the first product in the search results', () => {
-    cy.get('.s-main-slot .s-result-item')
-        .first()
-        .find('h2 a')
-        .click();
+    searchPage.clickFirstProduct();
 });
 
 Then('I should see the product title as {string}', (expectedTitle: string) => {
-    cy.get('#productTitle').should('contain.text', expectedTitle);
+  productPage.verifyProductTitle(expectedTitle);
 });
 
 Then('I should see a product image', () => {
-    cy.get('#imgTagWrapperId img').should('be.visible');
+  productPage.verifyProductImageVisible();
 });
 
 Then('I should see a product price', () => {
-    cy.get('.a-price .a-offscreen').should('exist').and('not.be.empty');
+  productPage.verifyProductPrice();
 });
 
 Then('I should see product details', () => {
-    cy.get('#feature-bullets').should('exist').and('not.be.empty');
-    cy.get('#feature-bullets li').each((detail) => {
-        cy.wrap(detail).should('be.visible').and('not.be.empty');
-    });
+  productPage.verifyProductDetails();
 });
 
 Then('I should see customer reviews', () => {
-    cy.get('#acrCustomerReviewText').should('exist').and('not.be.empty');
-
-    cy.get('#averageCustomerReviews .a-icon-alt').should('exist').and('contain.text', 'stars');
+  productPage.verifyCustomerReviews();
 });

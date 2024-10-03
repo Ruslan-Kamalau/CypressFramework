@@ -9,6 +9,8 @@ export default class loginPage {
     private continueButton = '#continue';
     private signInSubmitButton = '#signInSubmit';
     private accountListButton = '#nav-link-accountList';
+    private accountNameHeader = '#nav-link-accountList-nav-line-1';
+    private logOutButton = "#nav-item-signout";
 
     openAmazonHomePage() {
         cy.visit(this.amazonUrl);
@@ -20,5 +22,13 @@ export default class loginPage {
       cy.get(this.continueButton).click();
       cy.get(this.passwordInput).clear().type(this.password);
       cy.get(this.signInSubmitButton).click();
+    }
+
+    verifyAccountName(expectedName: string) {
+      cy.get(this.accountNameHeader).should('contain.text', expectedName);
+    }
+
+    signOut(){
+      cy.get(this.logOutButton).click();
     }
   }

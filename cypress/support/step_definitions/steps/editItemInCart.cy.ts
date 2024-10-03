@@ -1,16 +1,16 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import { MainPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { SearchPage } from 'cypress/support/step_definitons/pages/mainPage';
 import { CartPage } from 'cypress/support/step_definitons/pages/cartPage';
 
-const mainPage = new MainPage();
+const searchPage = new SearchPage();
 const cartPage = new CartPage();
 
 Given('I search for {string}', (product: string) => {
-  mainPage.searchProduct(product); 
+  searchPage.searchProduct(product); 
 });
 
 When('I click on the first product in the search results', () => {
-  mainPage.clickFirstProduct();
+  searchPage.clickFirstProduct();
 });
 
 When('I add the product to the cart', () => {

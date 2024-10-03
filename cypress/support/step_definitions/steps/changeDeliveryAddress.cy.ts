@@ -1,10 +1,10 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
-import { MainPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { SearchPage } from 'cypress/support/step_definitons/pages/mainPage';
 import { CheckoutPage } from 'cypress/support/step_definitons/pages/checkoutPage';
 
 const loginPage = new LoginPage();
-const mainPage = new MainPage();
+const searchPage = new SearchPage();
 const checkoutPage = new CheckoutPage();
 
 Given('I am logged into Amazon with valid credentials', () => {
@@ -13,12 +13,12 @@ Given('I am logged into Amazon with valid credentials', () => {
 });
 
 When('I add an {string} to the cart', (product : string) => {
-  mainPage.searchProduct(product);
-  mainPage.addToCart();
+  searchPage.searchProduct(product);
+  searchPage.addToCart();
 });
 
 When('I proceed to checkout', () => {
-  mainPage.goToCart();
+  searchPage.goToCart();
   checkoutPage.proceedToCheckout();
 });
 

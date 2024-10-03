@@ -1,10 +1,10 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
-import { MainPage } from 'cypress/support/step_definitons/pages/mainPage';
+import { SearchPage } from 'cypress/support/step_definitons/pages/mainPage';
 import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
 import { HelperMethods } from 'cypress/support/step_definitons/pages/helperMethods';
 
 const loginPage = new LoginPage();
-const mainPage = new MainPage();
+const searchPage = new SearchPage();
 const helperMethods = new HelperMethods();
 
 Given('I am on the Amazon homepage', () => {
@@ -12,7 +12,7 @@ Given('I am on the Amazon homepage', () => {
 });
 
 When('I search for {string}', (productName: string) => {
-  mainPage.searchProduct(productName);
+  searchPage.searchProduct(productName);
 });
 
 Then('I should see search results for {string}', (productName: string) => {

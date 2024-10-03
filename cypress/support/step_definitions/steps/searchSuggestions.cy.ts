@@ -1,18 +1,22 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { SearchPage } from 'cypress/support/step_definitons/pages/searchPage';
+import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
+
+const searchPage = new SearchPage();
+const loginPage = new LoginPage();
 
 Given('I am on the Amazon homepage', () => {
-    cy.visit('https://www.amazon.com/');
+    loginPage.openAmazonHomePage();
 });
 
 When('I type {string} into the search bar', (query: string) => {
-    cy.get('#twotabsearchtextbox').type(query);
+    searchPage.typeInSearchBar(query);
 });
 
 Then('I should see search suggestions', () => {
-    cy.get('.s-suggestion').should('exist').and('be.visible');
+    searchPage.verifySearchSuggestionsVisible();
 });
 
 Then('the suggestions should include {string} and {string}', (suggestion1: string, suggestion2: string) => {
-    cy.get('.s-suggestion').should('contain.text', suggestion1);
-    cy.get('.s-suggestion').should('contain.text', suggestion2);
+    searchPage.verifySuggestionsContainText(suggestion1, suggestion2);
 });

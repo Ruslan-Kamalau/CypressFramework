@@ -1,32 +1,26 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { LoginPage } from 'cypress/support/step_definitons/pages/loginPage';
+import { ProfilePage } from 'cypress/support/step_definitons/pages/profilePage';
 
-const amazonUrl = Cypress.env('AMAZON_URL');
-const userEmail = Cypress.env('AMAZON_EMAIL');
-const userPassword = Cypress.env('AMAZON_PASSWORD');
+const loginPage = new LoginPage();
+const profilePage = new ProfilePage();
+
 const accountName = 'Ruslan';
 
 Given('I am logged into Amazon with valid credentials', () => {
-    cy.visit(amazonUrl);
-
-    cy.get('#nav-link-accountList').click();
-
-    cy.get('#ap_email').type(userEmail);
-    cy.get('#continue').click();
-
-    cy.get('#ap_password').type(userPassword);
-    cy.get('#signInSubmit').click();
-
-    cy.get('#nav-link-accountList-nav-line-1').should('contain.text', accountName);
+  loginPage.openAmazonHomePage();
+  loginPage.login();
+  loginPage.verifyAccountName(accountName);
 });
 
 When('I navigate to the profile page', () => {
-    cy.get('#nav-link-accountList').click();
+  cy.get(loginPage.accountListButton).click();
 });
 
 Then('I should see my account name displayed', () => {
-    cy.get('h1').should('contain.text', accountName);
+  profilePage.verifyAccountName(accountName);
 });
 
 Then('I should see my account orders', () => {
-    cy.get('a[href*="order-history"]').should('exist').and('be.visible');
+  profilePage.verifyOrderHistoryLinkExists();
 });
